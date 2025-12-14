@@ -1,4 +1,6 @@
 <?php
+header('Content-Type:application/json; charset=utf-8');
+
 $host='localhost';
 $db = 'adise25_2021168';
 require_once "db_upass.php";
@@ -14,13 +16,19 @@ if(gethostname()=='users.iee.ihu.gr') {
 }
 
 if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL: (" . 
-    $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    echo json_encode([
+        "status"=> "error",
+        "message"=> "Failed connection to mysql",
+        "code"=> $mysqli->connect_error
+    ]);
+    exit;
 }
 
 $result = $mysqli->query("SELECT NOW() AS current_time");
 $row = $result->fetch_assoc();
-echo "Connection OK! Current time from DB: " . $row['current_time'];
-?>
-
+echo json_encode([
+    "status"=> "success",
+    "time"=> $row['current_time']
+    ]);
+    
 ?>
