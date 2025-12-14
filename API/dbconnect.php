@@ -1,6 +1,5 @@
 <?php
 header('Content-Type:application/json; charset=utf-8');
-
 $host='localhost';
 $db = 'adise25_2021168';
 require_once "db_upass.php";
@@ -24,11 +23,9 @@ if ($mysqli->connect_errno) {
     exit;
 }
 
-$result = $mysqli->query("SELECT NOW() AS current_time");
+$result = $mysqli->query("SELECT NOW() AS c");
 $row = $result->fetch_assoc();
 echo json_encode([
     "status"=> "success",
-    "time"=> $row['current_time']
+    "time"=> $row['c']
     ]);
-    
-?>
