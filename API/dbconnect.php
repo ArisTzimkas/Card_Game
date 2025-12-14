@@ -17,4 +17,10 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . 
     $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
+
+$result = $mysqli->query("SELECT NOW() AS current_time");
+$row = $result->fetch_assoc();
+echo "Connection OK! Current time from DB: " . $row['current_time'];
+?>
+
 ?>
