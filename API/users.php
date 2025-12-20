@@ -1,5 +1,6 @@
 <?php
-require_once 'API/game.php';
+require_once 'game.php';
+require_once 'dbconnect.php';
 
 // Main handler for users endpoint
 function handle_user($method, $side, $input){
