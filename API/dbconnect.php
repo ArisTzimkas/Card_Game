@@ -4,13 +4,14 @@ $host='localhost';
 $db = 'adise25_2021168';
 require_once "db_upass.php";
 
-$user=$DB_USER;
-$pass=$DB_PASS;
 
 if(gethostname()=='users.iee.ihu.gr') {
+    $user=$DB_USER;
+    $pass=$DB_PASS;
 	$mysqli = new mysqli($host, $user, $pass, $db,null,'/home/student/iee/2021/iee2021168/mysql/run/mysql.sock');
 } else {
-		//$pass=null;
+    $user='root';
+    $pass= '';
     $mysqli = new mysqli($host, $user, $pass, $db);
 }
 

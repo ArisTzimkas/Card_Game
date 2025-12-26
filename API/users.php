@@ -82,7 +82,7 @@ function set_user($input) {
     echo json_encode(['side'=>$slot,'token'=>$res->fetch_assoc()['token']], JSON_PRETTY_PRINT);
 }
 
-// Returns the current player side based on the provided token
+// Returns the current player side based on provided token
 function current_player($token) {
 	global $mysqli;
 	if($token==null) {return(null);}
@@ -92,7 +92,7 @@ function current_player($token) {
 	$st->execute();
 	$res = $st->get_result();
 	if($row=$res->fetch_assoc()) {
-		return($row['side']);//returns player1 or player2
+		return($row['side']);// returns player1 or player2
 	}
 	return(null);
 }

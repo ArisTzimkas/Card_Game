@@ -63,9 +63,6 @@ function update_game_status() {
         case 1: $new_status = 'Initialized'; break;
         case 2:
             $new_status = 'Started';
-            if ($status['p_turn'] == null) {
-                $new_turn = 'PLAYER1';
-            }
             break;
     }
 
@@ -79,4 +76,16 @@ function update_game_status() {
     $st = $mysqli->prepare($sql);
     $st->bind_param('ss', $new_status, $new_turn);
     $st->execute();
+}
+
+function read_status() {
+	global $mysqli;
+	
+	$sql = 'select * from game_status';
+	$st = $mysqli->prepare($sql);
+
+	$st->execute();
+	$res = $st->get_result();
+	$status = $res->fetch_assoc();
+	return($status);
 }

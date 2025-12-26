@@ -17,7 +17,7 @@ CREATE TABLE players (
 
 
 CREATE TABLE game_status (
-	status ENUM('Not active','Initialized','Started','Ended','Aboarded') NOT NULL DEFAULT 'Not active',
+	status ENUM('Not active','Initialized','Started','Ended','Aboarted') NOT NULL DEFAULT 'Not active',
 	p_turn ENUM('PLAYER1','PLAYER2'),
 	score_p1 TINYINT(1) DEFAULT 0,
 	score_p2 TINYINT(1) DEFAULT 0,
@@ -25,10 +25,11 @@ CREATE TABLE game_status (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
+
 DELIMITER ;;
-CREATE PROCEDURE reset()
+CREATE PROCEDURE reset_game()
 BEGIN
-  DELETE FROM cards;
+  TRUNCATE TABLE cards;
   INSERT INTO cards (suit, card_value, location)
   SELECT s, v, 'DECK'
   FROM (
@@ -40,8 +41,22 @@ BEGIN
     UNION ALL SELECT '9' UNION ALL SELECT '10' UNION ALL SELECT 'J' UNION ALL SELECT 'Q'
     UNION ALL SELECT 'K'
   ) r;
-  
-  UPDATE game_status SET status='Initialized', p_turn=NULL, score_p1=0, score_p2=0;
-  UPDATE players SET username=NULL, token=NULL;
-END ;;
+  UPDATE game_status 
+  SET status='Initialized', p_turn=NULL, score_p1=0, score_p2=0;
+  UPDATE players 
+  SET username=NULL, token=NULL;
+END
+DELIMITER ;
+
+
+
+DELIMITER ;;
+CREATE PROCEDURE shuffled4()
+BEGIN
+    SELECT c.id, c.suit, c.card_value
+    FROM cards c
+    WHERE location='DECK'
+    ORDER BY RAND()
+    LIMIT 4;
+END
 DELIMITER ;
