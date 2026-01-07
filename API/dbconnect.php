@@ -27,6 +27,6 @@ if ($mysqli->connect_errno) {
 $result = $mysqli->query("SELECT NOW() AS c");
 $row = $result->fetch_assoc();
 echo json_encode([
-    "status"=> "success",
+    "status"=> "successfull communication with server",
     "time"=> $row['c']
     ]);

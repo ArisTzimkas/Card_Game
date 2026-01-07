@@ -60,3 +60,52 @@ BEGIN
     LIMIT 4;
 END
 DELIMITER ;
+
+
+
+
+DELIMITER //
+CREATE PROCEDURE points_count()
+BEGIN
+    DECLARE p1cards INT DEFAULT 0;
+    DECLARE p2cards INT DEFAULT 0;
+    
+    DECLARE p1score INT DEFAULT 0;
+    DECLARE p2score INT DEFAULT 0;
+    
+    DECLARE spathi2side ENUM('PLAYER1','PLAYER2');
+    DECLARE extra1 INT DEFAULT 0;
+    DECLARE extra2 INT DEFAULT 0;
+    
+    -- ΠΛΗΘΟΣ ΧΑΡΤΙΩΝ
+    SELECT COUNT(*) INTO p1cards FROM cards WHERE location='CAPTURED1';
+    SELECT COUNT(*) INTO p2cards FROM cards WHERE location='CAPTURED2';
+    
+    -- ΠΟΝΤΟΙ ΣΤΟΝ ΠΑΙΚΤΗ ΜΕ ΠΕΡΙΣΣΟΤΕΡΑ ΧΑΡΤΙΑ
+    IF p1cards > p2cards THEN
+        SET p1score = p1score + 3;
+    ELSEIF p2cards > p1cards THEN
+        SET p2score = p2score + 3;
+    END IF;
+    
+    -- ΠΟΝΤΟΣ ΓΙΑ 2 ΣΠΑΘΙ
+    SELECT location INTO spathi2side FROM cards WHERE id=7;
+    IF spathi2side = 'PLAYER1' THEN
+        SET p1score = p1score + 1;
+    ELSEIF spathi2side = 'PLAYER2' THEN
+        SET p2score = p2score + 1;
+    END IF;
+    
+    -- ΠΟΝΤΟΣ ΓΙΑ 10ΡΙΑ ΚΑΙ ΦΙΓΟΥΡΕΣ
+    SELECT COUNT(*) INTO extra1 
+    FROM cards 
+    WHERE location='CAPTURED1' AND card_value IN ('10','J','Q','K');
+    SET p1score = p1score + extra1;
+    
+    SELECT COUNT(*) INTO extra2 
+    FROM cards 
+    WHERE location='CAPTURED2' AND card_value IN ('10','J','Q','K');
+    SET p2score = p2score + extra2;
+
+END //
+DELIMITER ;

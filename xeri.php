@@ -39,7 +39,7 @@ switch($action) {
 
     case 'deal':
         // GET /xeri.php?action=show_table
-        deal();
+        output(deal());
         break;
     case 'reset':
         // POST /xeri.php?action=reset
@@ -48,10 +48,20 @@ switch($action) {
     case 'play_card':
         // POST /xeri.php?action=play_card
         play_card($input['token'] ?? null, $input['card_id']?? null);
+
+        $token = $input['token'] ?? null;
+        $st = $mysqli->prepare("UPDATE players SET last_action = NOW() WHERE token=?");
+        $st->bind_param("s", $token);
+        $st->execute();
+
+        update_game_status();
         break;
     case 'show_player_table':
         // GET /xeri.php?action=show_player_table
-        show_table_by_player($_GET['token'] ?? null);
+        table($_GET['token'] ?? null);
+        break;
+    case '':
+
         break;
 
     default:
