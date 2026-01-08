@@ -18,15 +18,17 @@ if(gethostname()=='users.iee.ihu.gr') {
 if ($mysqli->connect_errno) {
     echo json_encode([
         "status"=> "error",
-        "message"=> "Failed connection to mysql",
+        "message"=> "Failed connection to database",
         "code"=> $mysqli->connect_error
     ]);
     exit;
 }
 
+/*
 $result = $mysqli->query("SELECT NOW() AS c");
 $row = $result->fetch_assoc();
 echo json_encode([
-    "status"=> "successfull communication with server",
+    "status"=> "Successfull communication with database",
     "time"=> $row['c']
     ]);
+*/
