@@ -1,86 +1,101 @@
 # ADISE25_2021168
-This is an API for card game Ξερή and it supports 2 players with token authentication, full game flow-rules, DeadLock detection, player turn detection and the mysql database is stored in users.iee.ihu.gr. 
+Αυτό το project είναι ενα API για το παιχνίδι καρτών **Ξερή**, το οποίο υποστηρίζει μέχρι 2 παίκτες με authentication token, πλήρη ροή παιχνιδιού, ανίχνευση DeadLock, ανίχνευση σειράς παίκτη και χρήση MySQL βάσης δεδομένων τοπικά ή στον server **users.iee.ihu.gr** .
 
-## Game flow
-1. Players join.
-2. Cards are dealt.
-3. Players see their cards.
-4. Players play their cards and if the game rules are triggered, updates on the score and card location are made. The game detects captures of table cards with same card value or with Jack, also detects Ξερή with same card value adding 10 points and Ξερή with Jack adding 20 points to player's score while the game is still on.
-5. If players don't have any cards left, a check of sufficient amount of deck cards is made and new cards are dealt to players.
-6. If there are not any deck cards left, it means the game is finished and the remaining cards on the table are parsed to the last player.
-7. When the game is finished the final points, of amount of cards and other specific rules, are counted and added to their previous number from making Ξερή. Then, the scores and the winner are displayed.
+---
 
-## Game endpoints
-### Reset all
-Resets all tables 
+## Ροή παιχνιδιού
+1. Οι παίκτες συνδέονται και παίρνουν τα authentication token τους.
+2. Γίνεται το μοίρασμα των χαρτιών στο τραπέζι και στους παίκτες.
+3. Οι παίκτες βλέπουν τα χαρτιά τους και διαλέγουν πιο χαρτί θα παίξουν οταν έρθει η σειρά τους.
+4. Ο παίκτης παίζει το χαρτί του στο τραπέζι και αν έχουν ενεργοποιηθέι οι κανόνες του παιχνιδιού, γίνονται ενημερωσεις στην βαθμολογία και στις τοποθεσιες των καρτών αν έχει γινει μάζεμα ή ξερή. Όταν το χαρτί που παίχτηκε έχει ίδιο νούμερο-φιγούρα με το προηγούμενο που υπήρχε στο τραπέζι και ειναι μονο αυτα τα δυο χαρτια στο τραπέζι, τοτε γίνεται ξερή και αν το χαρτί του παίκτη ήταν Βαλές προστήθονται 20 πόντοι στην βαθμολογία του, ενω αντίστοιχα 10 πόντοι αν το χαρτί του είχε ίδιο νούμερο-φιγούρα. Αν το πλήθος των χαρτιών στο τραπέζι ειναι μεγαλυτερο του 2, τότε γίνεται μάζεμα των χαρτιών με Βαλέ ή ίδιο νούμερο-φιγούρα.
+5. Αν δεν έχουν μείνει άλλα χαρτία στους παίκτες, γίνεται έλεγχος και μοιράζονται νέα χαρτία απο την τράπουλα στους παίκτες.
+6. Όταν οι παίκτες παίξουν τα τελευταία τους χαρτιά και δέν υπαρχουν διαθέσιμα στην τράπουλα, σημαίνει πως το παιχνίδι έχει τελειώσει και τα χαρτιά που εχουν μείνει στο τραπέζι πηγαίνουν προς το παίκτη που είχε τελευταίος σειρά, σλυμφωνα με τους κανόνες του παιχνιδιού.
+7. Αφού το παιχνίδι έχει τελειώσει, μετρώνται οι συνολικοι πόντοι των παικτών συμφωνα με τους κανόνες του παιχνιδιού και ο παίκτης με την μεγαλύτερη βαθμολογία εμφανίζεται ως νικητής του παιχνιδιού.
+
+---
+
+## Κανόνες βαθμολογίας
+- 3 πόντους παίρνει ο παίκτης που έχει τα περισσότερα χαρτιά
+- 1 πόντο παίρνει ο παίκτης που έχει το 2 σπαθί
+- 1 πόντο παίρνει ο παίκτης που έχει το 10 καρό
+- Κάθε χαρτί Ρήγα, Βαλέ, Ντάμα ή 10 (όχι το καρό) κερδίζει 1 πόντο
+- Κάθε Ξερή κερδίζει 10 πόντους
+- Όμως, η Ξερή με Βαλέ κερδίζει 20 πόντους
+
+---
+
+## Endpoints
+### Reset
+Επαναφέρει όλους τους πίνακες της βάσης στην αρχική τους μορφή. 
 ```bash
 curl "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=reset"
 ```
 
-### Create player
-Updates table players with username and returns side of player (PLAYER1 OR PLAYER2) and his token.
+### Είσοδος παίκτη
+Ενημερώνει τον πίνακα **players** με το ονομα που όρισε ο χρήστης και επιστρέφει την πλευρά του παίκτη (PLAYER1 ή PLAYER2) και το token που θα χρησιμοποιεί στην συνέχεια για τις ενέργιές του.
 ```bash
 curl -X PUT "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=player" -H "Content-Type: application/json" -d "{\"username\":\"Bob\"}"
 ```
 
-### Start game by dealing cards
-Deals 4 cards to the table and 6 cards to each player.
+### Έναρξη παιχνιδιού με μοίρασμα των χαρτιών
+Μοιράζονται 4 χαρτιά στο τραπέζι και 6 σε κάθε παίκτη.
 ```bash
 curl -X POST "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=deal"
 ```
 
-### Show player's and table's cards
-Returns the last card on the table and the player cards. The player needs to provide his token.
+### Προβολή χαρτιών παίκτη και τραπεζιού
+Επιστρέφει το τελευταίο χαρτί στο τραπέζι και τα χαρτία που έχει ο παίκτης. Ο παίκτης πρέπει να δώσει το token του και αν αυτό δεν αντιστοιχεί στο token της βάσης εμφανίζεται ανάλογο μήνυμα.
 ```bash
 curl "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=show_player_table&token=12345"
 ```
 
-### Play card
-Player needs to provide his token and the card_id from the cards he has.
+### Παίξιμο χαρτιού
+Ο παίκτης πρέπει να δώσει το token του και το id του χαρτιού που έχει και θέλει να παίξει στο τραπέζι. Αν το χαρτί δεν υπάρχει στην κατοχή του παίκτη εμφανίζεται ανάλογο μήνυμα.
 ```bash
 curl -X POST "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=play_card" -H "Content-Type: application/json" -d "{\"token\":\"12345\",\"card_id\":12345}"
 ```
 
-### Show all players
-Returns the tokens of both players. This endpoint is used for development.
+### Εμφάνιση των παικτών
+Επιστρέφει τα token και των δυο παικτών. Το συγκεκριμένο χρησιμοποιήται μόνο για δοκιμαστικούς σκοπούς.
 ```bash
 curl "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=players"
 ```
 
-### Game status
-Returns the status of game, whose player turn it is , current player scores and last action timestamp. 
+### Κατάσταση παιχνιδιού
+Επιστρέφει την κατάσταση του παιχνιδιού, ποιός παίκτης έχει σειρά, προσωρινές βαθμολογίες και την ωρα της πιό πρόσφατης ενέργειας.
 ```bash
 curl "https://users.iee.ihu.gr/~iee2021168/ADISE25_2021168/xeri.php?action=status"
 ```
+---
 
-## Database structure
+## Βάση δεδομένων
 
 ### Players
-* Username - Primary key
-* Side (PLAYER1||PLAYER2)
+* Username - Κύριο κλειδί
+* Side (PLAYER1 ή PLAYER2)
 * Token
 * Last action timestamp
 
 ### Cards
-* Id - Primary key
+* Id - Κύριο κλειδί
 * Suit
 * Card value
-* Location (TABLE||DECK||PLAYER1||PLAYER2||CAPTURED1||CAPTURED2)
-* Order (of cards played in table)
+* Location (TABLE ή DECK ή PLAYER1 ή PLAYER2 ή CAPTURED1 ή CAPTURED2)
+* Order (σειρά χαρτιών που έχουν τοθετηθεί στο τραπέζι)
 
 ### Game status
-* Status (Not active||Initialized||Started||Ended||Aborted)
+* Status (Not active ή Initialized ή Started ή Ended ή Aborted)
 * Player turn
 * Player1 score
 * Player2 score
 * Last action timestamp
 
 ### Stored procedures
-* reset_game   -> resets all tables
-* shuffled4    -> returns 4 random cards located in deck
-* shuffled6    -> returns 6 random cards located in deck
-* player_cards -> returns all cards of token related player
-* points_count -> updates the score of players according to the game's rules
+* reset_game   -> επαναφέρει όλους τους πίνακες στην αρχική τους μορφή
+* shuffled4    -> επιστρέφει 4 τυχαία χαρτιά απο την τράπουλα
+* shuffled6    -> επιστρέφει 6 τυχαία χαρτιά απο την τράπουλα
+* player_cards -> επιστρέφει ολα τα χαρτιά του παίκτη με το συγκεκριμένο token
+* points_count -> updates the score of players according to the game's rules ενημερώνει τις βαθμολογίες των παικτών σύμφωνα με τους κανόνες.
 
 
 
