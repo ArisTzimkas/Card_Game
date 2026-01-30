@@ -24,6 +24,10 @@ function update_game_status() {
     $res = $st->get_result();
     $status = $res->fetch_assoc();
 
+    if($status['status'] == 'Ended') {
+        return; // No update needed
+    }
+
     $new_status = null;
     $new_turn = null;
 
