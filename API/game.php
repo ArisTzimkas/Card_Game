@@ -31,7 +31,7 @@ function update_game_status() {
     $st3 = $mysqli->prepare(
         "SELECT count(*) AS Aborted 
          FROM players 
-         WHERE last_action < (NOW() - INTERVAL 20 MINUTE)"
+         WHERE last_action < (NOW() - INTERVAL 10 MINUTE)"
     );
     $st3->execute();
     $res3 = $st3->get_result();
@@ -40,13 +40,11 @@ function update_game_status() {
     if ($aborted > 0) {
         $sql = "UPDATE players 
                 SET username=NULL, token=NULL 
-                WHERE last_action < (NOW() - INTERVAL 20 MINUTE)";
+                WHERE last_action < (NOW() - INTERVAL 10 MINUTE)";
         $st2 = $mysqli->prepare($sql);
         $st2->execute();
 
-        if ($status['status'] == 'Started') {
-            $new_status = 'Aborted';
-        }
+        $new_status = 'Aborted';
     }
 
     // Count active players
@@ -58,12 +56,12 @@ function update_game_status() {
     $res = $st->get_result();
     $active_players = $res->fetch_assoc()['c'];
 
+    if ($aborted == 0) {
     switch ($active_players) {
         case 0: $new_status = 'Not active'; break;
         case 1: $new_status = 'Initialized'; break;
-        case 2:
-            $new_status = 'Started';
-            break;
+        case 2: $new_status = 'Started'; break;
+        }
     }
 
     // Keep old values if unchanged

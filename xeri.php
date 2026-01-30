@@ -22,13 +22,13 @@ $input = json_decode(file_get_contents('php://input'), true);
 switch($action) {
 
     case 'player': 
-        // PUT /xeri.php?action=user
-        // GET /xeri.php?action=user&side=PLAYER1
+        // PUT /xeri.php?action=player
+        // GET /xeri.php?action=player&side=PLAYER1
         handle_user($method, $_GET['side'] ?? null, $input);
         break;
 
     case 'players':
-        // GET /xeri.php?action=users
+        // GET /xeri.php?action=players
         show_users();
         break;
 
@@ -60,10 +60,6 @@ switch($action) {
         // GET /xeri.php?action=show_player_table
         table($_GET['token'] ?? null);
         break;
-    case '':
-
-        break;
-
     default:
         echo json_encode(['error' => 'Unknown action']);
 }

@@ -1,32 +1,33 @@
 CREATE TABLE cards (
-	id TINYINT(1) AUTO_INCREMENT,
-	suit ENUM('♠','♥','♣','♦') NOT NULL,
-	card_value ENUM('A','2','3','4','5','6','7','8','9','10','J','Q','K') NOT NULL,
-	location ENUM('DECK','TABLE','PLAYER1','PLAYER2','CAPTURED1','CAPTURED2') NOT NULL,
+	`id` TINYINT(1) AUTO_INCREMENT,
+	`suit` ENUM('♠','♥','♣','♦') NOT NULL,
+	`card_value` ENUM('A','2','3','4','5','6','7','8','9','10','J','Q','K') NOT NULL,
+	`location` ENUM('DECK','TABLE','PLAYER1','PLAYER2','CAPTURED1','CAPTURED2') NOT NULL COLLATE 'utf8mb4_general_ci',
+	`order` TINYINT(4) NULL DEFAULT NULL,
 	PRIMARY KEY (id)	
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE players (
-	username varchar(20) DEFAULT NULL,
-	side ENUM('PLAYER1','PLAYER2') NOT NULL,
-	token varchar(50) DEFAULT NULL,
-	last_action timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	`username` varchar(20) DEFAULT NULL,
+	`side` ENUM('PLAYER1','PLAYER2') NOT NULL,
+	`token` varchar(50) DEFAULT NULL,
+	`last_action` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 	PRIMARY KEY (side)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE game_status (
-	status ENUM('Not active','Initialized','Started','Ended','Aboarted') NOT NULL DEFAULT 'Not active',
-	p_turn ENUM('PLAYER1','PLAYER2'),
-	score_p1 TINYINT(1) DEFAULT 0,
-	score_p2 TINYINT(1) DEFAULT 0,
-	last_change timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+	`status` ENUM('Not active','Initialized','Started','Ended','Aboarted') NOT NULL DEFAULT 'Not active',
+	`p_turn` ENUM('PLAYER1','PLAYER2'),
+	`score_p1` TINYINT(1) DEFAULT 0,
+	`score_p2` TINYINT(1) DEFAULT 0,
+	`last_change` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 
-DELIMITER ;;
+DELIMITER //
 CREATE PROCEDURE reset_game()
 BEGIN
   TRUNCATE TABLE cards;
@@ -45,12 +46,11 @@ BEGIN
   SET status='Initialized', p_turn=NULL, score_p1=0, score_p2=0;
   UPDATE players 
   SET username=NULL, token=NULL;
-END
+END //
 DELIMITER ;
 
 
-
-DELIMITER ;;
+DELIMITER //
 CREATE PROCEDURE shuffled4()
 BEGIN
     SELECT c.id, c.suit, c.card_value
@@ -58,10 +58,35 @@ BEGIN
     WHERE location='DECK'
     ORDER BY RAND()
     LIMIT 4;
-END
+END //
 DELIMITER ;
 
 
+DELIMITER //
+CREATE PROCEDURE shuffled6()
+BEGIN
+    SELECT c.id, c.suit, c.card_value
+    FROM cards c
+    WHERE location='DECK'
+    ORDER BY RAND()
+    LIMIT 6;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE player_cards(
+    IN p_side ENUM('PLAYER1','PLAYER2')
+)
+BEGIN
+    SELECT 
+        c.id, 
+        c.suit, 
+        c.card_value
+    FROM cards c
+    WHERE c.location = p_side;
+END //
+DELIMITER ;
 
 
 DELIMITER //
