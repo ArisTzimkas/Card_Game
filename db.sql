@@ -45,7 +45,7 @@ BEGIN
   UPDATE game_status 
   SET status='Initialized', p_turn=NULL, score_p1=0, score_p2=0;
   UPDATE players 
-  SET username=NULL, token=NULL;
+  SET username=NULL, token=NULL, last_action=NOW();
 END //
 DELIMITER ;
 
