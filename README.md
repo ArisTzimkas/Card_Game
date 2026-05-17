@@ -1,6 +1,9 @@
 # Card Game (ADISE25_2021168)
 Αυτό το project είναι ενα API για το παιχνίδι καρτών **Ξερή**, το οποίο υποστηρίζει μέχρι 2 παίκτες με authentication token, πλήρη ροή παιχνιδιού, ανίχνευση DeadLock, ανίχνευση σειράς παίκτη και χρήση MySQL βάσης δεδομένων τοπικά ή στον server **users.iee.ihu.gr** .
 
+## Download Postman Collections for testing
+- [Local](./CardGameLocal.postman_collection.json) 
+- [Server](./CardGame.postman_collection.json)
 ---
 
 ## Ροή παιχνιδιού
