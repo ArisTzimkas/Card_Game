@@ -1,0 +1,371 @@
+{
+  "info": {
+    "_postman_id": "d30ea6c4-83f2-4b03-805b-40725493974b",
+    "name": "XERI ADISE25 LOCAL",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50780309",
+    "_collection_link": "https://go.postman.co/collection/50780309-d30ea6c4-83f2-4b03-805b-40725493974b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "reset all",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=reset",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "reset"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "player1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"Mark\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=player",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "player"
+            }
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "player2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"Bob\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=user",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "user"
+            }
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "show all players",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=players",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "players"
+            }
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "game status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "status"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deal cards",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=deal",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "deal"
+            }
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "show player1's table",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=show_player_table&token=034c9b717d6313dd6e4ac48a8796db81",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "show_player_table"
+            },
+            {
+              "key": "token",
+              "value": "034c9b717d6313dd6e4ac48a8796db81"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "show player2's table",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=show_player_table&token=034c9b717d6313dd6e4ac48a8796db81",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "show_player_table"
+            },
+            {
+              "key": "token",
+              "value": "034c9b717d6313dd6e4ac48a8796db81"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "play card 1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"token\" : \"8ee4294e53e2a7e817af16cec6b06062\",\r\n    \"card_id\" : 28\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=play_card",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "play_card"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "play card 2",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"token\" : \"8ee4294e53e2a7e817af16cec6b06062\",\r\n    \"card_id\" : 28\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost/ADISE25_2021168/xeri.php?action=play_card",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "path": [
+            "ADISE25_2021168",
+            "xeri.php"
+          ],
+          "query": [
+            {
+              "key": "action",
+              "value": "play_card"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
